@@ -1,6 +1,5 @@
 use anyhow::{bail, Context, Result};
 use indexmap::{indexmap, IndexMap};
-use turbo_tasks::Value;
 use turbo_tasks_fs::{File, FileSystemPathVc};
 use turbopack_binding::turbopack::{
     core::{
@@ -38,7 +37,7 @@ pub async fn route_bootstrap(
             "next/dist/server/future/route-modules/{}/module",
             route_module_kind
         )),
-        Value::new(EcmaScriptModulesReferenceSubType::Undefined),
+        EcmaScriptModulesReferenceSubType::Undefined,
         OptionIssueSourceVc::none(),
         IssueSeverity::Error.cell(),
     );
@@ -114,7 +113,7 @@ pub async fn bootstrap(
             .into(),
         )
         .as_asset(),
-        Value::new(ReferenceType::Internal(InnerAssetsVc::empty())),
+        ReferenceType::Internal(InnerAssetsVc::empty()),
     );
 
     let mut inner_assets = inner_assets.await?.clone_value();
@@ -123,7 +122,7 @@ pub async fn bootstrap(
 
     let asset = context.process(
         bootstrap_asset,
-        Value::new(ReferenceType::Internal(InnerAssetsVc::cell(inner_assets))),
+        ReferenceType::Internal(InnerAssetsVc::cell(inner_assets)),
     );
 
     let Some(asset) = EvaluatableAssetVc::resolve_from(asset).await? else {

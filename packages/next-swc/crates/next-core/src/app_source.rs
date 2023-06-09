@@ -769,9 +769,9 @@ import {}, {{ chunks as {} }} from "COMPONENT_{}";
                     format!("COMPONENT_{i}"),
                     state.context.with_transition("next-layout-entry").process(
                         SourceAssetVc::new(component).into(),
-                        Value::new(ReferenceType::EcmaScriptModules(
+                        ReferenceType::EcmaScriptModules(
                             EcmaScriptModulesReferenceSubType::Undefined,
-                        )),
+                        ),
                     ),
                 );
             }
@@ -895,7 +895,7 @@ import {}, {{ chunks as {} }} from "COMPONENT_{}";
                             state.context.process(
                                 TextContentSourceAssetVc::new(SourceAssetVc::new(*alt_path).into())
                                     .into(),
-                                Value::new(ReferenceType::Internal(InnerAssetsVc::empty())),
+                                ReferenceType::Internal(InnerAssetsVc::empty()),
                             ),
                         );
                         writeln!(state.loader_tree_code, "{s}  alt: {identifier},")?;
@@ -997,9 +997,7 @@ import {}, {{ chunks as {} }} from "COMPONENT_{}";
             "BOOTSTRAP".to_string(),
             context.with_transition("next-client").process(
                 SourceAssetVc::new(next_js_file_path("entry/app/hydrate.tsx")).into(),
-                Value::new(ReferenceType::EcmaScriptModules(
-                    EcmaScriptModulesReferenceSubType::Undefined,
-                )),
+                ReferenceType::EcmaScriptModules(EcmaScriptModulesReferenceSubType::Undefined),
             ),
         );
 
@@ -1024,7 +1022,7 @@ import {}, {{ chunks as {} }} from "COMPONENT_{}";
 
         let module = context.process(
             asset.into(),
-            Value::new(ReferenceType::Internal(InnerAssetsVc::cell(inner_assets))),
+            ReferenceType::Internal(InnerAssetsVc::cell(inner_assets)),
         );
 
         let Some(module) = EvaluatableAssetVc::resolve_from(module).await? else {
@@ -1102,7 +1100,7 @@ impl AppRouteVc {
         let entry_source_asset = SourceAssetVc::new(this.entry_path);
         let entry_asset = this.context.process(
             entry_source_asset.into(),
-            Value::new(ReferenceType::Entry(EntryReferenceSubType::AppRoute)),
+            ReferenceType::Entry(EntryReferenceSubType::AppRoute),
         );
 
         let config = parse_segment_config_from_source(entry_asset);
@@ -1123,14 +1121,14 @@ impl AppRouteVc {
 
                 let entry = this.context.with_transition("next-edge-route").process(
                     entry_source_asset.into(),
-                    Value::new(ReferenceType::Entry(EntryReferenceSubType::AppRoute)),
+                    ReferenceType::Entry(EntryReferenceSubType::AppRoute),
                 );
 
                 let module = this.context.process(
                     internal_asset,
-                    Value::new(ReferenceType::Internal(InnerAssetsVc::cell(indexmap! {
+                    ReferenceType::Internal(InnerAssetsVc::cell(indexmap! {
                         "ROUTE_CHUNK_GROUP".to_string() => entry
-                    }))),
+                    })),
                 );
 
                 let Some(module) = EvaluatableAssetVc::resolve_from(module).await? else {
