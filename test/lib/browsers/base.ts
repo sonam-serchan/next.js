@@ -12,16 +12,16 @@ export type Event = 'request'
  */
 export class BrowserInterface implements PromiseLike<any> {
   private promise: any
-  then: PromiseLike<any>['then']
-  private catch: any
+  then: Promise<any>['then']
+  catch: Promise<any>['catch']
 
   protected chain(nextCall: any): BrowserInterface {
     if (!this.promise) {
       this.promise = Promise.resolve(this)
     }
     this.promise = this.promise.then(nextCall)
-    this.then = (...args) => this.promise.then(...args)
-    this.catch = (...args) => this.promise.catch(...args)
+    this.then = this.promise.then.bind(this.promise)
+    this.catch = this.promise.catch.bind(this.promise)
     return this
   }
 
