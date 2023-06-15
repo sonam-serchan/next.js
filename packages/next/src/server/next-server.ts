@@ -2523,9 +2523,7 @@ export default class NextNodeServer extends BaseServer {
                   res.statusCode = result.response.status
                   await pipeBodyStreamToResponse(
                     result.response.body,
-                    this.flushingStreamForCompression(
-                      res as NodeNextResponse
-                    ) as ServerResponse
+                    this.flushingStreamForCompression(res as NodeNextResponse)
                   )
                   res.send()
                   return {
@@ -2706,9 +2704,7 @@ export default class NextNodeServer extends BaseServer {
                   require('next/dist/compiled/edge-runtime') as typeof import('next/dist/compiled/edge-runtime')
                 await pipeBodyStreamToResponse(
                   result.response.body,
-                  this.flushingStreamForCompression(
-                    res as NodeNextResponse
-                  ) as ServerResponse
+                  this.flushingStreamForCompression(res as NodeNextResponse)
                 )
                 res.send()
               }
